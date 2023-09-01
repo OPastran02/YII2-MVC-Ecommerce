@@ -68,6 +68,7 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new Product();
+        $model->imageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -131,4 +132,6 @@ class ProductController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
 }
