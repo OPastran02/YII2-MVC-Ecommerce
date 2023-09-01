@@ -27,7 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'id',
+            [
+                'attribute'=>'id',
+                'contentOptions' => ['style' => 'width: 50px; text-align: center;']
+            ],
             'name',
             [
                 'attribute' => 'image',
@@ -37,16 +40,34 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'price',
-            'status',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'status',
+                'content' => function($model){
+                    /** @var \common\models\Product $model*/
+                    return Html::tag('span', $model->status ? 'Active' : 'Inactive', [
+                        'class' => $model->status ? 'badge badge-success' : 'badge badge-danger'
+                    ]);
+                }
+            ],
+            [
+                'attribute' => 'created_at',
+                'format' => 'datetime',
+                'contentOptions' => ['style' => 'white-space: nowrap;']
+
+            ],
+            [
+                'attribute' => 'updated_at',
+                'format' => 'datetime',
+                'contentOptions' => ['style' => 'white-space: nowrap;']
+
+            ],
             //'created_by',
             //'updated_by',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Product $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>
